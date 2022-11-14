@@ -1,4 +1,3 @@
-SET @userid :='1';
 with top_category as (
     with ranking as(
         Select 
@@ -54,12 +53,14 @@ AND fc.film_id NOT IN (
         inventory i
     Inner Join rental r On r.inventory_id = i.inventory_id
     Inner Join customer c On r.customer_id = c.customer_id
-        where c.customer_id=@userid
+        where c.customer_id='1'
 order by watched
 )
 group by 
     fc.film_id, 
-    fc.category_id
+    fc.category_id,
+	cate.name,
+	f.title
 order by 
     fc.category_id Asc , 
     frequency Desc,
