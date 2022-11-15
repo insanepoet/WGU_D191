@@ -1,3 +1,18 @@
+CREATE OR REPLACE FUNCTION get_recommended(cust_id integer)
+RETURNS TABLE
+(
+	"customer_id" integer,
+	"fav_genre" varchar(25),
+	"rec1" smallint,
+	"rec1_name" varchar(255),
+	"rec2" smallint,
+	"rec2_name" varchar(255),
+	"rec3" smallint,
+	"rec3_name" varchar(255)
+)
+AS $BODY$
+BEGIN
+Return QUERY
 with recom as (
 	with top_category as (
 		with ranking as(
@@ -77,3 +92,7 @@ SELECT
 	nth_value(film_id,3)OVER(Order BY frequency Desc,revenue desc) AS rec3,
 	nth_value(title,3)OVER(Order BY frequency Desc,revenue desc) AS rec3_name
 FROM recom Limit 1 Offset 2;
+
+END;
+
+$BODY$ Language plpgsql;
